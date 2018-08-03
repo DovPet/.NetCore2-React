@@ -58,15 +58,23 @@ export class GenreForm extends React.Component<
       </div>
     );
   }
+
   // This will handle the submit form event.
   private handleSave(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
+
     // PUT request for Edit employee.
     if (this.state.genre.id) {
-      fetch("/api/genres", {
+      fetch("api/genres/" + this.state.genre.id, {
         method: "PUT",
-        body: data
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: event.target.name.value,
+          description: event.target.description.value
+        })
       })
         .then(response => response.json())
         .then(responseJson => {
@@ -75,9 +83,16 @@ export class GenreForm extends React.Component<
     }
     // POST request for Add employee.
     else {
-      fetch("/api/genres", {
+      fetch("api/genres", {
         method: "POST",
-        body: data
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: event.target.name.value,
+          description: event.target.description.value
+        })
       })
         .then(response => response.json())
         .then(responseJson => {
@@ -103,6 +118,7 @@ export class GenreForm extends React.Component<
           </label>
           <div className="col-md-4">
             <input
+              //ref={nameInput => (this.nameInput = nameInput)}
               className="form-control"
               type="text"
               name="name"
@@ -112,13 +128,13 @@ export class GenreForm extends React.Component<
           </div>
         </div>
         <div className="form-group row">
-          <label className="control-label col-md-12" htmlFor="Description">
+          <label className="control-label col-md-12" htmlFor="description">
             Description
           </label>
           <div className="col-md-4">
             <textarea
               className="form-control"
-              name="Description"
+              name="description"
               style={{ height: 150, width: 500 }}
               defaultValue={this.state.genre.description}
               required

@@ -45,8 +45,8 @@ export class Genres extends React.Component<
   private handleDelete(id: number) {
     if (!confirm("Do you want to delete genre with Id: " + id)) return;
     else {
-      fetch("api/genre/" + id, {
-        method: "delete"
+      fetch("api/genres/" + id, {
+        method: "DELETE"
       }).then(data => {
         this.setState({
           genres: this.state.genres.filter(rec => {
