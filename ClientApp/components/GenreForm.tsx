@@ -2,6 +2,7 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 import { Genre } from "./Genres";
+import TextField from "@material-ui/core/TextField";
 interface GenreFormState {
   title: string;
   loading: boolean;
@@ -112,6 +113,13 @@ export class GenreForm extends React.Component<
         <div className="form-group row">
           <input type="hidden" name="id" value={this.state.genre.id} />
         </div>
+        <TextField
+          id="name"
+          label="Name"
+          className={"form-control"}
+          value={this.state.genre.name}
+          margin="normal"
+        />
         <div className="form-group row">
           <label className=" control-label col-md-12" htmlFor="name">
             Name

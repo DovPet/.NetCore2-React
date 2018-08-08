@@ -10,8 +10,8 @@ export class Genres extends React.Component<
   RouteComponentProps<{}>,
   FetchGenresDataState
 > {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { genres: [], loading: true };
     fetch("api/genres")
       .then(response => response.json() as Promise<Genre[]>)
