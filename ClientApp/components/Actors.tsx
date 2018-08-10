@@ -2,21 +2,21 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 
-interface FetchGenresDataState {
-  genres: Genre[];
+interface FetchActorsDataState {
+  actors: Actor[];
   loading: boolean;
 }
-export class Genres extends React.Component<
+export class Actors extends React.Component<
   RouteComponentProps<{}>,
-  FetchGenresDataState
+  FetchActorsDataState
 > {
   constructor(props) {
     super(props);
-    this.state = { genres: [], loading: true };
-    fetch("api/genres")
-      .then(response => response.json() as Promise<Genre[]>)
+    this.state = { actors: [], loading: true };
+    fetch("api/actors")
+      .then(response => response.json() as Promise<Actor[]>)
       .then(data => {
-        this.setState({ genres: data, loading: false });
+        this.setState({ actors: data, loading: false });
       });
     // This binding is necessary to make "this" work in the callback
     this.handleDelete = this.handleDelete.bind(this);
@@ -29,14 +29,14 @@ export class Genres extends React.Component<
         <em>Loading...</em>
       </p>
     ) : (
-      this.renderGenresTable(this.state.genres)
+      this.renderActorsTable(this.state.actors)
     );
     return (
       <div>
-        <h1>Genres Data</h1>
-        <p>This component demonstrates fetching Genres data from the server.</p>
+        <h1>Actors Data</h1>
+        <p>This component demonstrates fetching Actors data from the server.</p>
         <p>
-          <Link to="/genre/new">Create New</Link>
+          <Link to="/actor/new">Create New</Link>
         </p>
         {contents}
       </div>
@@ -44,27 +44,27 @@ export class Genres extends React.Component<
   }
 
   private handleDelete(id: number) {
-    if (!confirm("Do you want to delete genre with Id: " + id)) return;
+    if (!confirm("Do you want to delete actor with Id: " + id)) return;
     else {
-      fetch("api/genres/" + id, {
+      fetch("api/actors/" + id, {
         method: "DELETE"
       }).then(data => {
         this.setState({
-          genres: this.state.genres.filter(rec => {
+          actors: this.state.actors.filter(rec => {
             return rec.id != id;
           })
         });
       });
     }
   }
-  private handleEdit(id: number) {
-    this.props.history.push("/genre/edit/" + id);
-  }
   private handleDetails(id: number) {
-    this.props.history.push("/genre/details/" + id);
+    this.props.history.push("/actor/details/" + id);
+  }
+  private handleEdit(id: number) {
+    this.props.history.push("/actor/edit/" + id);
   }
   // Returns the HTML table to the render() method.
-  private renderGenresTable(genres: Genre[]) {
+  private renderActorsTable(actors: Actor[]) {
     return (
       <table className="table">
         <thead>
@@ -76,11 +76,11 @@ export class Genres extends React.Component<
           </tr>
         </thead>
         <tbody>
-          {genres.map(emp => (
+          {actors.map(emp => (
             <tr key={emp.id}>
               <td />
               <td onClick={id => this.handleDetails(emp.id)}>{emp.id}</td>
-              <td onClick={id => this.handleDetails(emp.id)}>{emp.name}</td>
+              <td onClick={id => this.handleDetails(emp.id)}>{emp.fullName}</td>
               <td>
                 <a className="action" onClick={id => this.handleEdit(emp.id)}>
                   <span className="glyphicon glyphicon-edit"> </span>{" "}
@@ -97,8 +97,10 @@ export class Genres extends React.Component<
     );
   }
 }
-export class Genre {
+export class Actor {
   id: number = 0;
-  name: string = "";
+  fullName: string = "";
+  firstName: string = "";
+  lastName: string = "";
   description: string = "";
 }

@@ -6,6 +6,7 @@ module.exports = (env) => {
     const extractCSS = new ExtractTextPlugin('vendor.css');
     const isDevBuild = !(env && env.prod);
     return [{
+        
         stats: { modules: false },
         resolve: {
             extensions: [ '.js' ]
